@@ -6,11 +6,12 @@
     <title>स्मार्ट नेटवर्क सिस्टम - Smart Network System</title>
     <style>
         :root {
-            --brand-dark: #141619;       /* गहरा काला (Rapido स्टाइल कंट्रास्ट) */
-            --brand-yellow: #FFB800;     /* चमकीला पीला/गोल्ड */
+            --brand-dark: #141619;
+            --brand-yellow: #FFB800;
             --brand-yellow-hover: #e5a500;
-            --brand-accent: #00C853;     /* हरा (कन्फर्म/सक्रिय स्टेटस के लिए) */
-            --bg-light: #F4F5F7;
+            --brand-green: #00C853;
+            --brand-red: #e53935;
+            --bg-light: #F2F4F7;
             --text-dark: #1A1D20;
             --text-muted: #5A626A;
         }
@@ -24,9 +25,12 @@
         body {
             background-color: var(--bg-light);
             color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* हेडर और यूनिक लोगो */
+        /* हेडर */
         header {
             background-color: var(--brand-dark);
             color: white;
@@ -44,6 +48,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
         }
         .logo-icon {
             background: var(--brand-yellow);
@@ -52,19 +57,17 @@
             font-size: 1.4rem;
             padding: 8px 12px;
             border-radius: 8px;
-            letter-spacing: 1px;
         }
         .logo-text h1 {
-            font-size: 1.45rem;
+            font-size: 1.4rem;
             color: var(--brand-yellow);
-            letter-spacing: 0.5px;
         }
         .logo-text span {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: #d1d5db;
         }
 
-        /* मुख्य नेविगेशन बटन */
+        /* नेविगेशन बटन */
         nav {
             display: flex;
             flex-wrap: wrap;
@@ -75,12 +78,12 @@
             background: #25282e;
             color: #fff;
             border: 1px solid #383c44;
-            padding: 9px 15px;
+            padding: 9px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.92rem;
             font-weight: 600;
-            transition: all 0.25s;
+            transition: 0.25s;
         }
         .nav-btn:hover, .nav-btn.active {
             background: var(--brand-yellow);
@@ -88,55 +91,40 @@
             border-color: var(--brand-yellow);
             font-weight: 700;
         }
+        .nav-btn.login-highlight {
+            background: var(--brand-yellow);
+            color: var(--brand-dark);
+            font-weight: 700;
+        }
+        .nav-btn.logout-btn {
+            background: var(--brand-red);
+            color: white;
+            border-color: var(--brand-red);
+        }
+        .nav-btn.logout-btn:hover {
+            background: #c62828;
+            color: white;
+        }
 
-        /* चलती हुई पट्टी (Live Ticker) */
+        /* चलती हुई सूचना पट्टी */
         .ticker-wrap {
             background: var(--brand-yellow);
             color: var(--brand-dark);
             font-weight: 700;
-            padding: 8px 0;
-            font-size: 0.95rem;
-            border-bottom: 1px solid #d99b00;
-        }
-
-        /* चलते हुए नंबरों का सेक्शन (Live Stats Counter) */
-        .stats-bar {
-            max-width: 1200px;
-            margin: 20px auto 0;
-            padding: 0 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-        .stat-card {
-            background: var(--brand-dark);
-            color: white;
-            padding: 18px;
-            border-radius: 10px;
-            text-align: center;
-            border-bottom: 4px solid var(--brand-yellow);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .stat-number {
-            font-size: 2.1rem;
-            font-weight: 800;
-            color: var(--brand-yellow);
-            display: block;
-        }
-        .stat-label {
+            padding: 7px 0;
             font-size: 0.92rem;
-            color: #e0e0e0;
-            margin-top: 4px;
         }
 
-        /* मुख्य लेआउट (साइडबार + पेज एरिया) */
+        /* मुख्य लेआउट */
         .main-wrapper {
-            max-width: 1200px;
-            margin: 20px auto;
+            max-width: 1220px;
+            width: 100%;
+            margin: 22px auto;
             padding: 0 15px;
             display: grid;
             grid-template-columns: 265px 1fr;
-            gap: 20px;
+            gap: 22px;
+            flex: 1;
         }
         @media (max-width: 820px) {
             .main-wrapper {
@@ -144,7 +132,7 @@
             }
         }
 
-        /* बाईं साइड का पैनल (Sidebar) */
+        /* बाईं साइडबार */
         .sidebar {
             background: white;
             padding: 18px;
@@ -153,11 +141,20 @@
             height: fit-content;
             border-top: 4px solid var(--brand-dark);
         }
+        .user-status-card {
+            background: var(--brand-dark);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--brand-yellow);
+            font-size: 0.9rem;
+        }
         .sidebar h3 {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: var(--brand-dark);
             margin-bottom: 12px;
-            padding-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 2px solid var(--brand-yellow);
         }
         .side-btn {
@@ -165,7 +162,6 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            text-align: left;
             background: #f8f9fa;
             border: 1px solid #e2e6ea;
             padding: 10px 12px;
@@ -180,65 +176,85 @@
         .side-btn:hover {
             background: var(--brand-dark);
             color: var(--brand-yellow);
-            border-color: var(--brand-dark);
-        }
-        .help-box {
-            margin-top: 15px;
-            padding: 14px;
-            background: var(--brand-dark);
-            color: white;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            border-left: 4px solid var(--brand-yellow);
         }
 
-        /* पेज सेक्शन */
-        .page-section {
-            display: none;
+        /* अलग-अलग पेज का नियंत्रण */
+        .page-view {
+            display: none !important;
             background: white;
-            padding: 24px;
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
             border-top: 4px solid var(--brand-yellow);
         }
-        .page-section.active-page {
-            display: block;
-            animation: fadeIn 0.25s ease-in;
+        .page-view.active-view {
+            display: block !important;
+            animation: slideUp 0.25s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        h2.page-title {
-            color: var(--brand-dark);
-            margin-bottom: 16px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
+
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eee;
+        }
+        .page-header h2 {
+            color: var(--brand-dark);
+            font-size: 1.45rem;
         }
 
-        /* फ़ॉर्म और इनपुट */
+        /* चलते हुए लाइव नंबर (केवल होम पेज पर) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+        .stat-box {
+            background: var(--brand-dark);
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-yellow);
+        }
+        .stat-box .num {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--brand-yellow);
+            display: block;
+        }
+        .stat-box .lbl {
+            font-size: 0.88rem;
+            color: #ddd;
+        }
+
+        /* फ़ॉर्म और ग्रिड */
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
             gap: 20px;
         }
-        .form-box {
+        .form-card {
             background: #fafafa;
-            padding: 18px;
+            padding: 20px;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
         }
-        .form-box h3 {
-            margin-bottom: 12px;
-            color: var(--brand-dark);
+        .form-card h3 {
             background: var(--brand-yellow);
+            color: var(--brand-dark);
             padding: 8px 12px;
             border-radius: 5px;
+            margin-bottom: 15px;
             font-size: 1.05rem;
         }
         label {
@@ -255,45 +271,27 @@
             border-radius: 6px;
             font-size: 0.95rem;
         }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--brand-dark);
-            box-shadow: 0 0 0 2px rgba(255, 184, 0, 0.3);
-        }
-        .action-btn {
-            width: 100%;
-            padding: 12px;
+        .btn {
+            padding: 11px 18px;
             border: none;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: 0.98rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.25s;
+            transition: 0.2s;
         }
-        .btn-primary {
-            background: var(--brand-yellow);
-            color: var(--brand-dark);
-        }
-        .btn-primary:hover {
-            background: var(--brand-yellow-hover);
-        }
-        .btn-dark {
-            background: var(--brand-dark);
-            color: var(--brand-yellow);
-        }
-        .btn-dark:hover {
-            background: #2b3036;
-        }
-        .btn-danger {
-            background: #d32f2f;
-            color: white;
-        }
+        .btn-full { width: 100%; }
+        .btn-yellow { background: var(--brand-yellow); color: var(--brand-dark); }
+        .btn-yellow:hover { background: var(--brand-yellow-hover); }
+        .btn-dark { background: var(--brand-dark); color: var(--brand-yellow); }
+        .btn-dark:hover { background: #2c3036; }
+        .btn-red { background: var(--brand-red); color: white; }
 
-        /* कार्ड लिस्ट और बुकिंग बटन */
-        .item-card {
+        /* लिस्ट कार्ड */
+        .list-card {
             background: #f9f9f9;
             border-left: 5px solid var(--brand-yellow);
-            padding: 15px;
+            padding: 16px;
             margin-bottom: 12px;
             border-radius: 6px;
             display: flex;
@@ -303,82 +301,46 @@
             gap: 12px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
-        .item-card.worker-card {
-            border-left-color: var(--brand-dark);
-        }
-        .book-btn {
-            background: var(--brand-dark);
-            color: var(--brand-yellow);
-            border: none;
-            padding: 9px 16px;
+        .list-card.worker-style { border-left-color: var(--brand-dark); }
+        .booked-badge {
+            background: var(--brand-green);
+            color: white;
+            padding: 8px 14px;
             border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* लॉगिन पेज बॉक्स */
+        .auth-wrapper {
+            max-width: 480px;
+            margin: 10px auto;
+        }
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
+            background: #eee;
+            border: none;
         }
-        .book-btn:hover {
-            background: var(--brand-yellow);
-            color: var(--brand-dark);
-        }
-        .book-btn.booked {
-            background: var(--brand-accent);
-            color: white;
-            cursor: default;
-        }
-
-        /* फ़िल्टर बार */
-        .filter-bar {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .filter-chip {
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            background: white;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .filter-chip.active, .filter-chip:hover {
+        .auth-tab.active {
             background: var(--brand-dark);
             color: var(--brand-yellow);
-            border-color: var(--brand-dark);
-        }
-
-        /* प्रोफ़ाइल कार्ड */
-        .profile-banner {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: var(--brand-dark);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-bottom: 4px solid var(--brand-yellow);
-        }
-        .avatar {
-            width: 65px;
-            height: 65px;
-            background: var(--brand-yellow);
-            color: var(--brand-dark);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 900;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 18px;
             background: var(--brand-dark);
             color: #ccc;
-            margin-top: 35px;
+            margin-top: 30px;
             border-top: 3px solid var(--brand-yellow);
             font-size: 0.9rem;
         }
@@ -388,81 +350,78 @@
 
     <!-- हेडर -->
     <header>
-        <div class="logo-box">
+        <div class="logo-box" onclick="switchPage('page-home')">
             <div class="logo-icon">SNS</div>
             <div class="logo-text">
                 <h1>स्मार्ट नेटवर्क सिस्टम</h1>
-                <span>Smart Network System • तेज़ और भरोसेमंद सेवा</span>
+                <span>Smart Network System</span>
             </div>
         </div>
-        <nav>
-            <button class="nav-btn active" id="nav-homePage" onclick="openPage('homePage')">🏠 होम</button>
-            <button class="nav-btn" id="nav-jobsPage" onclick="openPage('jobsPage')">📋 उपलब्ध काम</button>
-            <button class="nav-btn" id="nav-workersPage" onclick="openPage('workersPage')">👷 कामगार सूची</button>
-            <button class="nav-btn" id="nav-reportPage" onclick="openPage('reportPage')">⚠️ रिपोर्ट / शिकायत</button>
-            <button class="nav-btn" id="nav-profilePage" onclick="openPage('profilePage')">👤 मेरी प्रोफ़ाइल</button>
+        <nav id="topNav">
+            <button class="nav-btn active" data-page="page-home" onclick="switchPage('page-home')">🏠 होम</button>
+            <button class="nav-btn" data-page="page-jobs" onclick="switchPage('page-jobs')">📋 उपलब्ध काम</button>
+            <button class="nav-btn" data-page="page-workers" onclick="switchPage('page-workers')">👷 कामगार सूची</button>
+            <button class="nav-btn" data-page="page-report" onclick="switchPage('page-report')">⚠️ रिपोर्ट / शिकायत</button>
+            
+            <!-- लॉगिन / प्रोफ़ाइल / लॉगआउट बटन (स्थिति के अनुसार बदलेंगे) -->
+            <button class="nav-btn login-highlight" id="navLoginBtn" data-page="page-login" onclick="switchPage('page-login')">🔐 लॉगिन / साइन-अप</button>
+            <button class="nav-btn" id="navProfileBtn" data-page="page-profile" onclick="switchPage('page-profile')" style="display:none;">👤 मेरी प्रोफ़ाइल</button>
+            <button class="nav-btn logout-btn" id="navLogoutBtn" onclick="logoutUser()" style="display:none;">🚪 लॉगआउट</button>
         </nav>
     </header>
 
-    <!-- चलती हुई सूचना पट्टी -->
+    <!-- चलती हुई पट्टी -->
     <div class="ticker-wrap">
         <marquee behavior="scroll" direction="left" scrollamount="6">
-            ⚡ ताज़ा अपडेट: स्मार्ट नेटवर्क सिस्टम पर अब तक 1,250+ घरेलू काम पूरे किए जा चुके हैं! | 🛠️ प्लंबर, इलेक्ट्रीशियन, सफ़ाईकर्मी और पेंटर तुरंत उपलब्ध | 📞 24x7 ग्राहक सहायता: +91 98765-43210
+            ⚡ स्मार्ट नेटवर्क सिस्टम: काम देने वाले और काम करने वाले सीधे जुड़ें! | 🛠️ प्लंबर, इलेक्ट्रीशियन, सफ़ाई, पेंटिंग और घरेलू सेवाओं के लिए आज ही बुकिंग करें | 📞 हेल्पलाइन: +91 98765-43210
         </marquee>
     </div>
 
-    <!-- चलते हुए लाइव नंबर (Counters) -->
-    <div class="stats-bar">
-        <div class="stat-card">
-            <span class="stat-number counter" id="statJobs" data-target="345">0</span>
-            <span class="stat-label">कुल पोस्ट किए गए काम</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number counter" id="statWorkers" data-target="520">0</span>
-            <span class="stat-label">पंजीकृत कामगार</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number counter" id="statCompleted" data-target="1280">0</span>
-            <span class="stat-label">सफल बुकिंग्स</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number counter" id="statCities" data-target="28">0</span>
-            <span class="stat-label">सक्रिय इलाके / शहर</span>
-        </div>
-    </div>
-
-    <!-- मुख्य लेआउट -->
     <div class="main-wrapper">
-        <!-- बाईं तरफ़ का साइडबार (सभी बटन काम करने वाले) -->
+        <!-- बाईं साइडबार -->
         <aside class="sidebar">
-            <h3>⚡ त्वरित सेवाएं (Quick Menu)</h3>
-            <button class="side-btn" onclick="goToForm('jobFormBox')"><span>➕ नया काम पोस्ट करें</span><span>→</span></button>
-            <button class="side-btn" onclick="goToForm('workerFormBox')"><span>📝 कामगार बनें (जुड़ें)</span><span>→</span></button>
-            <button class="side-btn" onclick="openPage('jobsPage')"><span>📋 सभी काम देखें</span><span>→</span></button>
-            <button class="side-btn" onclick="openPage('workersPage')"><span>👷 कामगार ढूँढें</span><span>→</span></button>
-            <button class="side-btn" onclick="openPage('reportPage')"><span>⚠️ शिकायत / रिपोर्ट</span><span>→</span></button>
-            <button class="side-btn" onclick="openPage('profilePage')"><span>👤 मेरी प्रोफ़ाइल व बुकिंग</span><span>→</span></button>
-            <button class="side-btn" onclick="resetDemoData()" style="color:#d32f2f;"><span>🔄 डेटा रीसेट करें</span><span>↺</span></button>
-
-            <div class="help-box">
-                <strong style="color:var(--brand-yellow);">📞 स्मार्ट सहायता केंद्र</strong><br>
-                सुबह 8:00 से रात 10:00 तक<br>
-                हेल्पलाइन: <strong>+91 98765-43210</strong>
+            <div class="user-status-card" id="sidebarUserStatus">
+                <!-- JavaScript से अपडेट होगा -->
             </div>
+
+            <h3>📌 सभी पेज खोलें</h3>
+            <button class="side-btn" onclick="switchPage('page-home')"><span>🏠 मुख्य होम पेज</span><span>→</span></button>
+            <button class="side-btn" onclick="switchPage('page-jobs')"><span>📋 उपलब्ध काम देखें</span><span>→</span></button>
+            <button class="side-btn" onclick="switchPage('page-workers')"><span>👷 कामगार सूची देखें</span><span>→</span></button>
+            <button class="side-btn" onclick="switchPage('page-report')"><span>⚠️ रिपोर्ट / शिकायत पेज</span><span>→</span></button>
+            <button class="side-btn" id="sideLoginBtn" onclick="switchPage('page-login')"><span>🔐 लॉगिन / नया खाता</span><span>→</span></button>
+            <button class="side-btn" id="sideProfileBtn" onclick="switchPage('page-profile')" style="display:none;"><span>👤 मेरी प्रोफ़ाइल पेज</span><span>→</span></button>
+            <button class="side-btn" id="sideLogoutBtn" onclick="logoutUser()" style="display:none; color:#e53935;"><span>🚪 लॉगआउट करें</span><span>⏻</span></button>
         </aside>
 
-        <!-- मुख्य पेज एरिया -->
+        <!-- मुख्य कंटेंट (हर एक पेज बिल्कुल अलग खुलेगा) -->
         <main>
-            <!-- 1. होम पेज -->
-            <section id="homePage" class="page-section active-page">
-                <h2 class="page-title">
-                    <span>🏠 मुख्य डैशबोर्ड - काम दें या काम लें</span>
-                </h2>
-                <p style="margin-bottom: 18px; color: var(--text-muted);">नीचे दिए गए फ़ॉर्म भरें—आपका डेटा तुरंत लाइव लिस्ट में जुड़ जाएगा।</p>
+            <!-- ==================== पेज 1: होम पेज ==================== -->
+            <section id="page-home" class="page-view active-view">
+                <div class="page-header">
+                    <h2>🏠 मुख्य डैशबोर्ड (Home)</h2>
+                    <button class="btn btn-dark" onclick="switchPage('page-jobs')">सभी काम देखें →</button>
+                </div>
+
+                <!-- चलते हुए नंबर -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="num counter" id="countJobs" data-target="345">0</span>
+                        <span class="lbl">कुल उपलब्ध काम</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="num counter" id="countWorkers" data-target="520">0</span>
+                        <span class="lbl">पंजीकृत कामगार</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="num counter" id="countBookings" data-target="1280">0</span>
+                        <span class="lbl">पूरी हुई बुकिंग</span>
+                    </div>
+                </div>
 
                 <div class="grid-2">
                     <!-- काम देने का फ़ॉर्म -->
-                    <div class="form-box" id="jobFormBox">
+                    <div class="form-card">
                         <h3>1. काम करवाना है? (बुकिंग डालें)</h3>
                         <form id="jobForm">
                             <label>आपका नाम</label>
@@ -471,20 +430,20 @@
                             <input type="tel" id="cPhone" placeholder="उदा. 9876543210" required>
                             <label>काम की श्रेणी</label>
                             <select id="cCategory">
-                                <option value="घर की सफ़ाई">घर की सफ़ाई</option>
-                                <option value="इलेक्ट्रीशियन (बिजली)">इलेक्ट्रीशियन (बिजली)</option>
-                                <option value="प्लंबर (नल/पाइप)">प्लंबर (नल/पाइप)</option>
-                                <option value="पेंटिंग / पुताई">पेंटिंग / पुताई</option>
-                                <option value="बढ़ई (फर्नीचर)">बढ़ई (फर्नीचर)</option>
+                                <option>घर की सफ़ाई</option>
+                                <option>इलेक्ट्रीशियन (बिजली)</option>
+                                <option>प्लंबर (नल/पाइप)</option>
+                                <option>पेंटिंग / पुताई</option>
+                                <option>बढ़ई (फर्नीचर)</option>
                             </select>
                             <label>पता और काम का विवरण</label>
-                            <textarea id="cDetails" rows="3" placeholder="पता, समय और काम की जानकारी लिखें..." required></textarea>
-                            <button type="submit" class="action-btn btn-primary">काम पोस्ट करें ✔</button>
+                            <textarea id="cDetails" rows="3" placeholder="पता और काम लिखें..." required></textarea>
+                            <button type="submit" class="btn btn-yellow btn-full">काम पोस्ट करें ✔</button>
                         </form>
                     </div>
 
                     <!-- काम करने का फ़ॉर्म -->
-                    <div class="form-box" id="workerFormBox">
+                    <div class="form-card">
                         <h3>2. काम करना है? (नाम जोड़ें)</h3>
                         <form id="workerForm">
                             <label>आपका नाम</label>
@@ -493,400 +452,491 @@
                             <input type="tel" id="wPhone" placeholder="उदा. 9123456780" required>
                             <label>आपका कौशल (काम)</label>
                             <select id="wSkill">
-                                <option value="घर की सफ़ाई">घर की सफ़ाई</option>
-                                <option value="इलेक्ट्रीशियन (बिजली)">इलेक्ट्रीशियन (बिजली)</option>
-                                <option value="प्लंबर (नल/पाइप)">प्लंबर (नल/पाइप)</option>
-                                <option value="पेंटिंग / पुताई">पेंटिंग / पुताई</option>
-                                <option value="बढ़ई (फर्नीचर)">बढ़ई (फर्नीचर)</option>
+                                <option>घर की सफ़ाई</option>
+                                <option>इलेक्ट्रीशियन (बिजली)</option>
+                                <option>प्लंबर (नल/पाइप)</option>
+                                <option>पेंटिंग / पुताई</option>
+                                <option>बढ़ई (फर्नीचर)</option>
                             </select>
-                            <label>आपका इलाका और अनुभव/शुल्क</label>
-                            <textarea id="wBio" rows="3" placeholder="इलाका, अनुभव और प्रति विज़िट शुल्क लिखें..." required></textarea>
-                            <button type="submit" class="action-btn btn-dark">कामगार के रूप में जुड़ें ✔</button>
+                            <label>इलाका और अनुभव/शुल्क</label>
+                            <textarea id="wBio" rows="3" placeholder="इलाका और शुल्क लिखें..." required></textarea>
+                            <button type="submit" class="btn btn-dark btn-full">कामगार के रूप में जुड़ें ✔</button>
                         </form>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. उपलब्ध काम पेज -->
-            <section id="jobsPage" class="page-section">
-                <h2 class="page-title">
-                    <span>📋 उपलब्ध काम (ग्राहकों की बुकिंग)</span>
-                    <button class="book-btn" onclick="goToForm('jobFormBox')">+ नया काम जोड़ें</button>
-                </h2>
-                <div class="filter-bar" id="jobFilters">
-                    <button class="filter-chip active" onclick="filterItems('jobs', 'All', this)">सभी काम</button>
-                    <button class="filter-chip" onclick="filterItems('jobs', 'घर की सफ़ाई', this)">घर की सफ़ाई</button>
-                    <button class="filter-chip" onclick="filterItems('jobs', 'इलेक्ट्रीशियन (बिजली)', this)">इलेक्ट्रीशियन</button>
-                    <button class="filter-chip" onclick="filterItems('jobs', 'प्लंबर (नल/पाइप)', this)">प्लंबर</button>
-                    <button class="filter-chip" onclick="filterItems('jobs', 'पेंटिंग / पुताई', this)">पेंटिंग</button>
+            <!-- ==================== पेज 2: उपलब्ध काम ==================== -->
+            <section id="page-jobs" class="page-view">
+                <div class="page-header">
+                    <h2>📋 उपलब्ध कामों की सूची</h2>
+                    <button class="btn btn-yellow" onclick="switchPage('page-home')">+ नया काम जोड़ें</button>
                 </div>
-                <div id="jobsContainer"></div>
+                <p style="margin-bottom:15px; color:var(--text-muted);">नीचे ग्राहकों द्वारा डाले गए काम हैं। काम लेने के लिए बटन दबाएं:</p>
+                <div id="jobsListContainer"></div>
             </section>
 
-            <!-- 3. कामगार सूची पेज -->
-            <section id="workersPage" class="page-section">
-                <h2 class="page-title">
-                    <span>👷 उपलब्ध कामगार (सेवा देने वाले)</span>
-                    <button class="book-btn" onclick="goToForm('workerFormBox')">+ कामगार जुड़ें</button>
-                </h2>
-                <div class="filter-bar" id="workerFilters">
-                    <button class="filter-chip active" onclick="filterItems('workers', 'All', this)">सभी कामगार</button>
-                    <button class="filter-chip" onclick="filterItems('workers', 'घर की सफ़ाई', this)">घर की सफ़ाई</button>
-                    <button class="filter-chip" onclick="filterItems('workers', 'इलेक्ट्रीशियन (बिजली)', this)">इलेक्ट्रीशियन</button>
-                    <button class="filter-chip" onclick="filterItems('workers', 'प्लंबर (नल/पाइप)', this)">प्लंबर</button>
-                    <button class="filter-chip" onclick="filterItems('workers', 'पेंटिंग / पुताई', this)">पेंटिंग</button>
+            <!-- ==================== पेज 3: कामगार सूची ==================== -->
+            <section id="page-workers" class="page-view">
+                <div class="page-header">
+                    <h2>👷 उपलब्ध कामगार (मिस्त्री व सेवा प्रदाता)</h2>
+                    <button class="btn btn-dark" onclick="switchPage('page-home')">+ कामगार जुड़ें</button>
                 </div>
-                <div id="workersContainer"></div>
+                <p style="margin-bottom:15px; color:var(--text-muted);">अपने काम के लिए सही कामगार चुनें और सीधे बुक करें:</p>
+                <div id="workersListContainer"></div>
             </section>
 
-            <!-- 4. रिपोर्ट / शिकायत पेज -->
-            <section id="reportPage" class="page-section">
-                <h2 class="page-title">⚠️ रिपोर्ट और शिकायत केंद्र (Report Page)</h2>
-                <p style="margin-bottom: 15px; color: var(--text-muted);">किसी भी समस्या, देरी या सुझाव की रिपोर्ट दर्ज करें—नीचे आपकी दर्ज रिपोर्ट की स्थिति दिखेगी।</p>
-                <div class="form-box">
-                    <form id="reportForm">
-                        <label>आपका नाम</label>
-                        <input type="text" id="rName" placeholder="अपना नाम लिखें" required>
-                        <label>मोबाइल नंबर</label>
-                        <input type="tel" id="rPhone" placeholder="संपर्क नंबर" required>
-                        <label>रिपोर्ट का प्रकार</label>
-                        <select id="rType">
-                            <option>काम समय पर पूरा नहीं हुआ</option>
-                            <option>भुगतान या शुल्क से जुड़ी समस्या</option>
-                            <option>गलत व्यवहार की शिकायत</option>
-                            <option>वेबसाइट से जुड़ा सुझाव</option>
-                        </select>
-                        <label>विस्तृत विवरण</label>
-                        <textarea id="rMessage" rows="3" placeholder="अपनी बात विस्तार से लिखें..." required></textarea>
-                        <button type="submit" class="action-btn btn-danger">रिपोर्ट दर्ज करें</button>
-                    </form>
+            <!-- ==================== पेज 4: रिपोर्ट / शिकायत ==================== -->
+            <section id="page-report" class="page-view">
+                <div class="page-header">
+                    <h2>⚠️ रिपोर्ट और शिकायत पेज</h2>
                 </div>
-                <h3 style="margin: 20px 0 10px;">आपकी दर्ज की गई रिपोर्ट्स:</h3>
-                <div id="reportHistory"></div>
-            </section>
-
-            <!-- 5. मेरी प्रोफ़ाइल पेज -->
-            <section id="profilePage" class="page-section">
-                <h2 class="page-title">👤 मेरी प्रोफ़ाइल और बुकिंग इतिहास</h2>
-                <div class="profile-banner">
-                    <div class="avatar" id="profileAvatar">उ</div>
+                <div class="grid-2">
+                    <div class="form-card">
+                        <h3>नई रिपोर्ट / शिकायत दर्ज करें</h3>
+                        <form id="reportForm">
+                            <label>आपका नाम</label>
+                            <input type="text" id="rName" placeholder="अपना नाम लिखें" required>
+                            <label>मोबाइल नंबर</label>
+                            <input type="tel" id="rPhone" placeholder="संपर्क नंबर" required>
+                            <label>समस्या का विषय</label>
+                            <select id="rType">
+                                <option>काम समय पर पूरा नहीं हुआ</option>
+                                <option>भुगतान से जुड़ी समस्या</option>
+                                <option>गलत व्यवहार की शिकायत</option>
+                                <option>अन्य सुझाव / तकनीकी समस्या</option>
+                            </select>
+                            <label>पूरा विवरण</label>
+                            <textarea id="rMessage" rows="3" placeholder="अपनी शिकायत लिखें..." required></textarea>
+                            <button type="submit" class="btn btn-red btn-full">रिपोर्ट सबमिट करें</button>
+                        </form>
+                    </div>
                     <div>
-                        <h3 id="displayProfileName" style="color:var(--brand-yellow);">उपयोगकर्ता (इंदौर)</h3>
-                        <p id="displayProfileRole">भूमिका: ग्राहक और कामगार</p>
-                        <p id="displayProfilePhone">मोबाइल: +91 98765-43210</p>
+                        <h3 style="margin-bottom:12px;">दर्ज की गई रिपोर्ट्स का स्टेटस:</h3>
+                        <div id="reportListContainer"></div>
                     </div>
                 </div>
+            </section>
 
-                <div class="grid-2">
-                    <div class="form-box">
-                        <h3>प्रोफ़ाइल जानकारी बदलें</h3>
-                        <form id="profileUpdateForm">
-                            <label>पूरा नाम</label>
-                            <input type="text" id="pName" placeholder="अपना नाम लिखें" required>
+            <!-- ==================== पेज 5: लॉगिन और साइन-अप पेज ==================== -->
+            <section id="page-login" class="page-view">
+                <div class="page-header">
+                    <h2>🔐 अकाउंट लॉगिन / नया पंजीकरण</h2>
+                </div>
+                <div class="auth-wrapper">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" id="tabLogin" onclick="toggleAuthTab('login')">लॉगिन करें (Login)</button>
+                        <button class="auth-tab" id="tabRegister" onclick="toggleAuthTab('register')">नया खाता बनाएं (Sign Up)</button>
+                    </div>
+
+                    <!-- लॉगिन फ़ॉर्म -->
+                    <div class="form-card" id="loginBox">
+                        <h3>अपने खाते में लॉगिन करें</h3>
+                        <form id="loginForm">
                             <label>मोबाइल नंबर</label>
-                            <input type="tel" id="pPhone" placeholder="मोबाइल नंबर" required>
-                            <label>आपकी भूमिका</label>
-                            <select id="pRole">
+                            <input type="tel" id="loginPhone" placeholder="अपना रजिस्टर्ड मोबाइल नंबर डालें" required>
+                            <label>पासवर्ड</label>
+                            <input type="password" id="loginPass" placeholder="पासवर्ड डालें" required>
+                            <button type="submit" class="btn btn-yellow btn-full">लॉगिन करें 🔓</button>
+                        </form>
+                        <p style="margin-top:12px; font-size:0.85rem; color:#666;">नोट: पहली बार उपयोग कर रहे हैं तो ऊपर <strong>"नया खाता बनाएं"</strong> पर क्लिक करें।</p>
+                    </div>
+
+                    <!-- नया खाता फ़ॉर्म -->
+                    <div class="form-card" id="registerBox" style="display:none;">
+                        <h3>स्मार्ट नेटवर्क सिस्टम पर नया खाता बनाएं</h3>
+                        <form id="registerForm">
+                            <label>पूरा नाम</label>
+                            <input type="text" id="regName" placeholder="उदा. अमित शर्मा" required>
+                            <label>मोबाइल नंबर</label>
+                            <input type="tel" id="regPhone" placeholder="10 अंकों का मोबाइल नंबर" required>
+                            <label>आप क्या करना चाहते हैं?</label>
+                            <select id="regRole">
                                 <option>ग्राहक (काम करवाना है)</option>
                                 <option>कामगार (काम करना है)</option>
                                 <option>दोनों (काम देना और लेना)</option>
                             </select>
-                            <label>शहर / पता</label>
-                            <input type="text" id="pCity" placeholder="उदा. इंदौर" required>
-                            <button type="submit" class="action-btn btn-primary">प्रोफ़ाइल सेव करें</button>
+                            <label>शहर / इलाका</label>
+                            <input type="text" id="regCity" placeholder="उदा. इंदौर" required>
+                            <label>नया पासवर्ड बनाएं</label>
+                            <input type="password" id="regPass" placeholder="पासवर्ड सेट करें" required>
+                            <button type="submit" class="btn btn-dark btn-full">खाता बनाएं और लॉगिन करें ✔</button>
                         </form>
                     </div>
+                </div>
+            </section>
 
-                    <div class="form-box">
-                        <h3>मेरी की गई बुकिंग्स (My Bookings)</h3>
-                        <div id="myBookingsList">
-                            <p style="color:var(--text-muted); font-size:0.9rem;">अभी तक कोई बुकिंग नहीं की गई है। "उपलब्ध काम" या "कामगार सूची" से बुक करें।</p>
-                        </div>
+            <!-- ==================== पेज 6: मेरी प्रोफ़ाइल पेज ==================== -->
+            <section id="page-profile" class="page-view">
+                <div class="page-header">
+                    <h2>👤 मेरी प्रोफ़ाइल (My Profile)</h2>
+                    <button class="btn btn-red" onclick="logoutUser()">🚪 लॉगआउट करें (Logout)</button>
+                </div>
+
+                <div style="background:var(--brand-dark); color:white; padding:20px; border-radius:10px; margin-bottom:20px; border-bottom:4px solid var(--brand-yellow); display:flex; align-items:center; gap:15px;">
+                    <div id="profAvatar" style="width:60px; height:60px; background:var(--brand-yellow); color:var(--brand-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.7rem; font-weight:900;">A</div>
+                    <div>
+                        <h3 id="profName" style="color:var(--brand-yellow);">नाम</h3>
+                        <p id="profDetails">मोबाइल व शहर</p>
+                        <p id="profRole" style="font-size:0.9rem; color:#ccc;">भूमिका</p>
                     </div>
+                </div>
+
+                <div class="form-card">
+                    <h3>मेरी बुकिंग्स और गतिविधियाँ</h3>
+                    <div id="userBookingsContainer"></div>
                 </div>
             </section>
         </main>
     </div>
 
     <footer>
-        &copy; 2026 स्मार्ट नेटवर्क सिस्टम (Smart Network System) | डिज़ाइन व विकास: SNS नेटवर्क
+        &copy; 2026 स्मार्ट नेटवर्क सिस्टम (Smart Network System) | सभी अधिकार सुरक्षित
     </footer>
 
     <script>
-        // डिफ़ॉल्ट शुरुआती डेटा
-        const defaultJobs = [
-            { id: 101, name: "राजेश शर्मा", phone: "9876543210", category: "इलेक्ट्रीशियन (बिजली)", details: "विजय नगर, इंदौर — पंखा और स्विच बोर्ड की मरम्मत करवानी है।", booked: false },
-            { id: 102, name: "सुनीता वर्मा", phone: "9826012345", category: "घर की सफ़ाई", details: "पलासिया, इंदौर — 2BHK घर की पूरी सफ़ाई करवानी है।", booked: false }
+        // डेटा स्टोरेज
+        let jobs = JSON.parse(localStorage.getItem('sns_v3_jobs')) || [
+            { id: 1, name: "राजेश शर्मा", phone: "9876543210", category: "इलेक्ट्रीशियन (बिजली)", details: "विजय नगर, इंदौर — पंखा और लाइट फिटिंग करवानी है।", bookedBy: null },
+            { id: 2, name: "सुनीता वर्मा", phone: "9826012345", category: "घर की सफ़ाई", details: "पलासिया, इंदौर — पूरे घर की सफ़ाई करवानी है।", bookedBy: null }
         ];
 
-        const defaultWorkers = [
-            { id: 201, name: "सुरेश कुमार", phone: "9123456780", skill: "प्लंबर (नल/पाइप)", bio: "भंवरकुआं, इंदौर — 6 साल का अनुभव, नल फिटिंग और लीकेज सुधार (₹250 विज़िट)", booked: false },
-            { id: 202, name: "मनोज राठौर", phone: "9988776655", skill: "पेंटिंग / पुताई", bio: "राजवाड़ा, इंदौर — 8 साल का अनुभव, घर और दुकान की पेंटिंग", booked: false }
+        let workers = JSON.parse(localStorage.getItem('sns_v3_workers')) || [
+            { id: 1, name: "सुरेश कुमार", phone: "9123456780", skill: "प्लंबर (नल/पाइप)", bio: "भंवरकुआं, इंदौर — 6 साल का अनुभव (₹250 विज़िट)", bookedBy: null },
+            { id: 2, name: "मनोज राठौर", phone: "9988776655", skill: "पेंटिंग / पुताई", bio: "राजवाड़ा, इंदौर — 8 साल का अनुभव, घर पेंटिंग", bookedBy: null }
         ];
 
-        // LocalStorage से डेटा लोड करना
-        let jobsData = JSON.parse(localStorage.getItem('sns_jobs')) || defaultJobs;
-        let workersData = JSON.parse(localStorage.getItem('sns_workers')) || defaultWorkers;
-        let reportsData = JSON.parse(localStorage.getItem('sns_reports')) || [];
-        let bookingsData = JSON.parse(localStorage.getItem('sns_bookings')) || [];
-        let profileData = JSON.parse(localStorage.getItem('sns_profile')) || {
-            name: "उपयोगकर्ता", phone: "+91 98765-43210", role: "ग्राहक और कामगार", city: "इंदौर"
-        };
+        let reports = JSON.parse(localStorage.getItem('sns_v3_reports')) || [];
+        let users = JSON.parse(localStorage.getItem('sns_v3_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('sns_v3_currentUser')) || null;
 
-        // पेज बदलने का फ़ंक्शन
-        function openPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(pageId).classList.add('active-page');
+        // ==================== 1. अलग-अलग पेज बदलने का मुख्य फ़ंक्शन ====================
+        function switchPage(pageId) {
+            // अगर प्रोफ़ाइल पेज खोलना है और यूज़र लॉगिन नहीं है, तो लॉगिन पेज पर भेजें
+            if (pageId === 'page-profile' && !currentUser) {
+                alert('कृपया प्रोफ़ाइल देखने के लिए पहले लॉगिन करें!');
+                pageId = 'page-login';
+            }
 
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            const activeNav = document.getElementById('nav-' + pageId);
-            if (activeNav) activeNav.classList.add('active');
+            // सभी पेजों को पूरी तरह छिपाएं
+            const allPages = document.querySelectorAll('.page-view');
+            allPages.forEach(page => {
+                page.classList.remove('active-view');
+            });
+
+            // केवल चुने हुए पेज को दिखाएं
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active-view');
+            }
+
+            // ऊपर के नेविगेशन बटन को हाईलाइट करें
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-page') === pageId) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // होम पेज पर आने पर नंबर चलाएं
+            if (pageId === 'page-home') runCounters();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // साइडबार से सीधे फ़ॉर्म पर ले जाने का फ़ंक्शन
-        function goToForm(formBoxId) {
-            openPage('homePage');
-            setTimeout(() => {
-                const el = document.getElementById(formBoxId);
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                el.style.boxShadow = "0 0 15px rgba(255, 184, 0, 0.8)";
-                setTimeout(() => el.style.boxShadow = "none", 1500);
-            }, 100);
-        }
+        // ==================== 2. लॉगिन और लॉगआउट सिस्टम ====================
+        function updateAuthUI() {
+            const navLogin = document.getElementById('navLoginBtn');
+            const navProfile = document.getElementById('navProfileBtn');
+            const navLogout = document.getElementById('navLogoutBtn');
 
-        // चलते हुए नंबर (Animated Counters)
-        function animateCounters() {
-            document.getElementById('statJobs').setAttribute('data-target', 343 + jobsData.length);
-            document.getElementById('statWorkers').setAttribute('data-target', 518 + workersData.length);
-            document.getElementById('statCompleted').setAttribute('data-target', 1280 + bookingsData.length);
+            const sideLogin = document.getElementById('sideLoginBtn');
+            const sideProfile = document.getElementById('sideProfileBtn');
+            const sideLogout = document.getElementById('sideLogoutBtn');
+            const statusCard = document.getElementById('sidebarUserStatus');
 
-            document.querySelectorAll('.counter').forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                let current = 0;
-                const step = Math.ceil(target / 45);
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        counter.innerText = target.toLocaleString('hi-IN') + "+";
-                        clearInterval(timer);
-                    } else {
-                        counter.innerText = current.toLocaleString('hi-IN');
-                    }
-                }, 25);
-            });
-        }
+            if (currentUser) {
+                // लॉगिन होने पर
+                navLogin.style.display = 'none';
+                navProfile.style.display = 'inline-block';
+                navLogout.style.display = 'inline-block';
 
-        // कामों की लिस्ट दिखाना
-        function renderJobs(filter = 'All') {
-            const container = document.getElementById('jobsContainer');
-            container.innerHTML = '';
-            const filtered = filter === 'All' ? jobsData : jobsData.filter(j => j.category === filter);
+                sideLogin.style.display = 'none';
+                sideProfile.style.display = 'flex';
+                sideLogout.style.display = 'flex';
 
-            if (filtered.length === 0) {
-                container.innerHTML = '<p>इस श्रेणी में अभी कोई काम उपलब्ध नहीं है।</p>';
-                return;
-            }
-
-            filtered.forEach(job => {
-                const btnText = job.booked ? '✔ बुक हो गया' : 'काम लें / संपर्क करें';
-                const btnClass = job.booked ? 'book-btn booked' : 'book-btn';
-                container.innerHTML += `
-                    <div class="item-card">
-                        <div>
-                            <span style="background:#141619; color:#FFB800; padding:2px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold;">${job.category}</span>
-                            <h3 style="margin-top:5px;">${job.name}</h3>
-                            <p style="font-size:0.92rem; color:#444;">${job.details}</p>
-                        </div>
-                        <button class="${btnClass}" onclick="bookItem('job', ${job.id})">${btnText}</button>
-                    </div>
+                statusCard.innerHTML = `
+                    <div style="color:var(--brand-yellow); font-weight:bold;">🟢 लॉगिन सक्रिय है</div>
+                    <div style="font-size:1rem; font-weight:bold; margin-top:3px;">${currentUser.name}</div>
+                    <div style="font-size:0.82rem; color:#ccc;">📞 ${currentUser.phone} | ${currentUser.city}</div>
                 `;
-            });
-        }
 
-        // कामगारों की लिस्ट दिखाना
-        function renderWorkers(filter = 'All') {
-            const container = document.getElementById('workersContainer');
-            container.innerHTML = '';
-            const filtered = filter === 'All' ? workersData : workersData.filter(w => w.skill === filter);
-
-            if (filtered.length === 0) {
-                container.innerHTML = '<p>इस श्रेणी में अभी कोई कामगार उपलब्ध नहीं है।</p>';
-                return;
-            }
-
-            filtered.forEach(worker => {
-                const btnText = worker.booked ? '✔ बुक किया गया' : 'अभी बुक करें';
-                const btnClass = worker.booked ? 'book-btn booked' : 'book-btn';
-                container.innerHTML += `
-                    <div class="item-card worker-card">
-                        <div>
-                            <span style="background:#FFB800; color:#141619; padding:2px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold;">${worker.skill}</span>
-                            <h3 style="margin-top:5px;">${worker.name}</h3>
-                            <p style="font-size:0.92rem; color:#444;">${worker.bio}</p>
-                        </div>
-                        <button class="${btnClass}" onclick="bookItem('worker', ${worker.id})">${btnText}</button>
-                    </div>
-                `;
-            });
-        }
-
-        // फ़िल्टर बटन चलाना
-        function filterItems(type, category, btnEl) {
-            const parent = btnEl.parentElement;
-            parent.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            btnEl.classList.add('active');
-
-            if (type === 'jobs') renderJobs(category);
-            else renderWorkers(category);
-        }
-
-        // बुकिंग बटन का असली काम
-        function bookItem(type, id) {
-            if (type === 'job') {
-                const job = jobsData.find(j => j.id === id);
-                if (job && !job.booked) {
-                    job.booked = true;
-                    bookingsData.unshift(`काम लिया: ${job.category} (${job.name} - 📞 ${job.phone})`);
-                    localStorage.setItem('sns_jobs', JSON.stringify(jobsData));
-                    localStorage.setItem('sns_bookings', JSON.stringify(bookingsData));
-                    alert(`बधाई हो! आपने "${job.name}" का काम स्वीकार कर लिया है।\nसंपर्क नंबर: ${job.phone}`);
-                    renderJobs();
-                }
+                // प्रोफ़ाइल पेज की जानकारी भरें
+                document.getElementById('profName').innerText = currentUser.name;
+                document.getElementById('profDetails').innerText = `📞 ${currentUser.phone} | शहर: ${currentUser.city}`;
+                document.getElementById('profRole').innerText = `भूमिका: ${currentUser.role}`;
+                document.getElementById('profAvatar').innerText = currentUser.name.charAt(0).toUpperCase();
+                renderUserBookings();
             } else {
-                const worker = workersData.find(w => w.id === id);
-                if (worker && !worker.booked) {
-                    worker.booked = true;
-                    bookingsData.unshift(`कामगार बुक किया: ${worker.name} - ${worker.skill} (📞 ${worker.phone})`);
-                    localStorage.setItem('sns_workers', JSON.stringify(workersData));
-                    localStorage.setItem('sns_bookings', JSON.stringify(bookingsData));
-                    alert(`बुकिंग कन्फर्म! कामगार "${worker.name}" बुक हो गए हैं।\nसंपर्क नंबर: ${worker.phone}`);
-                    renderWorkers();
-                }
+                // लॉगआउट होने पर
+                navLogin.style.display = 'inline-block';
+                navProfile.style.display = 'none';
+                navLogout.style.display = 'none';
+
+                sideLogin.style.display = 'flex';
+                sideProfile.style.display = 'none';
+                sideLogout.style.display = 'none';
+
+                statusCard.innerHTML = `
+                    <div style="color:#ff8a80; font-weight:bold;">🔴 आप लॉगिन नहीं हैं</div>
+                    <div style="font-size:0.85rem; margin-top:4px;">बुकिंग और प्रोफ़ाइल के लिए लॉगिन करें।</div>
+                    <button class="btn btn-yellow" style="margin-top:8px; padding:6px 10px; font-size:0.85rem; width:100%;" onclick="switchPage('page-login')">अभी लॉगिन करें</button>
+                `;
             }
-            renderBookings();
-            animateCounters();
         }
 
-        // प्रोफ़ाइल में बुकिंग लिस्ट दिखाना
-        function renderBookings() {
-            const list = document.getElementById('myBookingsList');
-            if (bookingsData.length === 0) return;
-            list.innerHTML = bookingsData.map(b => `<div style="background:#e8f5e9; padding:8px 10px; border-left:3px solid #00C853; margin-bottom:8px; font-size:0.9rem; border-radius:4px;">✔ ${b}</div>`).join('');
+        function toggleAuthTab(type) {
+            if (type === 'login') {
+                document.getElementById('loginBox').style.display = 'block';
+                document.getElementById('registerBox').style.display = 'none';
+                document.getElementById('tabLogin').classList.add('active');
+                document.getElementById('tabRegister').classList.remove('active');
+            } else {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('registerBox').style.display = 'block';
+                document.getElementById('tabLogin').classList.remove('active');
+                document.getElementById('tabRegister').classList.add('active');
+            }
         }
 
-        // रिपोर्ट लिस्ट दिखाना
-        function renderReports() {
-            const container = document.getElementById('reportHistory');
-            if (reportsData.length === 0) {
-                container.innerHTML = '<p style="color:#666; font-size:0.9rem;">अभी कोई रिपोर्ट दर्ज नहीं है।</p>';
+        // नया खाता बनाना (Register)
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const phone = document.getElementById('regPhone').value;
+            if (users.find(u => u.phone === phone)) {
+                alert('यह मोबाइल नंबर पहले से पंजीकृत है! कृपया लॉगिन करें।');
+                toggleAuthTab('login');
                 return;
             }
-            container.innerHTML = reportsData.map(r => `
-                <div class="item-card" style="border-left-color:#d32f2f;">
+            const newUser = {
+                name: document.getElementById('regName').value,
+                phone: phone,
+                role: document.getElementById('regRole').value,
+                city: document.getElementById('regCity').value,
+                pass: document.getElementById('regPass').value,
+                bookings: []
+            };
+            users.push(newUser);
+            currentUser = newUser;
+            localStorage.setItem('sns_v3_users', JSON.stringify(users));
+            localStorage.setItem('sns_v3_currentUser', JSON.stringify(currentUser));
+            this.reset();
+            updateAuthUI();
+            alert(`स्वागत है ${newUser.name}! आपका खाता बन गया है और आप लॉगिन हो चुके हैं।`);
+            switchPage('page-profile');
+        });
+
+        // लॉगिन करना (Login)
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const phone = document.getElementById('loginPhone').value;
+            const pass = document.getElementById('loginPass').value;
+
+            const found = users.find(u => u.phone === phone && u.pass === pass);
+            if (found) {
+                currentUser = found;
+                localStorage.setItem('sns_v3_currentUser', JSON.stringify(currentUser));
+                this.reset();
+                updateAuthUI();
+                alert(`सफलतापूर्वक लॉगिन हो गया! नमस्ते ${currentUser.name}`);
+                switchPage('page-home');
+            } else {
+                alert('गलत मोबाइल नंबर या पासवर्ड! यदि नया खाता है तो "नया खाता बनाएं" पर क्लिक करें।');
+            }
+        });
+
+        // लॉगआउट करना (Logout)
+        function logoutUser() {
+            if (confirm('क्या आप वाकई लॉगआउट (Logout) करना चाहते हैं?')) {
+                currentUser = null;
+                localStorage.removeItem('sns_v3_currentUser');
+                updateAuthUI();
+                alert('आप सफलतापूर्वक लॉगआउट हो गए हैं।');
+                switchPage('page-login');
+            }
+        }
+
+        // ==================== 3. काम, कामगार और बुकिंग ====================
+        function renderJobs() {
+            const container = document.getElementById('jobsListContainer');
+            container.innerHTML = jobs.map(j => `
+                <div class="list-card">
                     <div>
-                        <strong>${r.type}</strong> — ${r.name} (${r.phone})<br>
-                        <small>${r.message}</small>
+                        <span style="background:var(--brand-dark); color:var(--brand-yellow); padding:2px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold;">${j.category}</span>
+                        <h3 style="margin-top:5px;">${j.name}</h3>
+                        <p style="font-size:0.92rem; color:#444;">${j.details}</p>
                     </div>
-                    <span style="background:#ffebee; color:#d32f2f; padding:4px 8px; border-radius:4px; font-weight:bold; font-size:0.82rem;">जाँच जारी है</span>
+                    ${j.bookedBy 
+                        ? `<span class="booked-badge">✔ बुक हो चुका है</span>` 
+                        : `<button class="btn btn-dark" onclick="bookAction('job', ${j.id})">काम लें / बुक करें</button>`
+                    }
                 </div>
             `).join('');
         }
 
-        // नया काम सबमिट करना
+        function renderWorkers() {
+            const container = document.getElementById('workersListContainer');
+            container.innerHTML = workers.map(w => `
+                <div class="list-card worker-style">
+                    <div>
+                        <span style="background:var(--brand-yellow); color:var(--brand-dark); padding:2px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold;">${w.skill}</span>
+                        <h3 style="margin-top:5px;">${w.name}</h3>
+                        <p style="font-size:0.92rem; color:#444;">${w.bio}</p>
+                    </div>
+                    ${w.bookedBy 
+                        ? `<span class="booked-badge">✔ बुक किया गया</span>` 
+                        : `<button class="btn btn-yellow" onclick="bookAction('worker', ${w.id})">अभी बुक करें</button>`
+                    }
+                </div>
+            `).join('');
+        }
+
+        function bookAction(type, id) {
+            if (!currentUser) {
+                alert('बुकिंग करने के लिए पहले लॉगिन करना ज़रूरी है!');
+                switchPage('page-login');
+                return;
+            }
+            if (type === 'job') {
+                const job = jobs.find(j => j.id === id);
+                job.bookedBy = currentUser.phone;
+                currentUser.bookings.unshift(`काम लिया: ${job.category} (${job.name} - 📞 ${job.phone})`);
+                localStorage.setItem('sns_v3_jobs', JSON.stringify(jobs));
+                alert(`काम कन्फर्म! ग्राहक ${job.name} का नंबर: ${job.phone}`);
+                renderJobs();
+            } else {
+                const worker = workers.find(w => w.id === id);
+                worker.bookedBy = currentUser.phone;
+                currentUser.bookings.unshift(`कामगार बुक किया: ${worker.name} - ${worker.skill} (📞 ${worker.phone})`);
+                localStorage.setItem('sns_v3_workers', JSON.stringify(workers));
+                alert(`बुकिंग कन्फर्म! कामगार ${worker.name} का नंबर: ${worker.phone}`);
+                renderWorkers();
+            }
+            // यूज़र डेटा सेव करें
+            const idx = users.findIndex(u => u.phone === currentUser.phone);
+            if (idx !== -1) users[idx] = currentUser;
+            localStorage.setItem('sns_v3_users', JSON.stringify(users));
+            localStorage.setItem('sns_v3_currentUser', JSON.stringify(currentUser));
+            renderUserBookings();
+        }
+
+        function renderUserBookings() {
+            const box = document.getElementById('userBookingsContainer');
+            if (!currentUser || !currentUser.bookings || currentUser.bookings.length === 0) {
+                box.innerHTML = '<p style="color:#666;">अभी तक आपने कोई बुकिंग नहीं की है।</p>';
+                return;
+            }
+            box.innerHTML = currentUser.bookings.map(b => `
+                <div style="background:#e8f5e9; padding:10px; border-left:4px solid var(--brand-green); margin-bottom:8px; border-radius:4px; font-weight:600;">✔ ${b}</div>
+            `).join('');
+        }
+
+        // काम पोस्ट करना
         document.getElementById('jobForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const newJob = {
+            jobs.unshift({
                 id: Date.now(),
                 name: document.getElementById('cName').value,
                 phone: document.getElementById('cPhone').value,
                 category: document.getElementById('cCategory').value,
                 details: document.getElementById('cDetails').value,
-                booked: false
-            };
-            jobsData.unshift(newJob);
-            localStorage.setItem('sns_jobs', JSON.stringify(jobsData));
+                bookedBy: null
+            });
+            localStorage.setItem('sns_v3_jobs', JSON.stringify(jobs));
             this.reset();
             renderJobs();
-            animateCounters();
-            alert('आपका काम सफलतापूर्वक पोस्ट हो गया है!');
-            openPage('jobsPage');
+            alert('आपका काम पोस्ट हो गया है! अब आपको "उपलब्ध काम" पेज पर ले जाया जा रहा है।');
+            switchPage('page-jobs');
         });
 
-        // नया कामगार सबमिट करना
+        // कामगार जोड़ना
         document.getElementById('workerForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const newWorker = {
+            workers.unshift({
                 id: Date.now(),
                 name: document.getElementById('wName').value,
                 phone: document.getElementById('wPhone').value,
                 skill: document.getElementById('wSkill').value,
                 bio: document.getElementById('wBio').value,
-                booked: false
-            };
-            workersData.unshift(newWorker);
-            localStorage.setItem('sns_workers', JSON.stringify(workersData));
+                bookedBy: null
+            });
+            localStorage.setItem('sns_v3_workers', JSON.stringify(workers));
             this.reset();
             renderWorkers();
-            animateCounters();
-            alert('आपका नाम कामगार सूची में जुड़ गया है!');
-            openPage('workersPage');
+            alert('आपका नाम जुड़ गया है! अब आपको "कामगार सूची" पेज पर ले जाया जा रहा है।');
+            switchPage('page-workers');
         });
 
         // रिपोर्ट सबमिट करना
+        function renderReports() {
+            const box = document.getElementById('reportListContainer');
+            if (reports.length === 0) {
+                box.innerHTML = '<p style="color:#666;">कोई रिपोर्ट दर्ज नहीं है।</p>';
+                return;
+            }
+            box.innerHTML = reports.map(r => `
+                <div class="list-card" style="border-left-color:var(--brand-red);">
+                    <div>
+                        <strong>${r.type}</strong> — ${r.name}<br>
+                        <small>${r.message}</small>
+                    </div>
+                    <span style="color:var(--brand-red); font-weight:bold;">जाँच जारी</span>
+                </div>
+            `).join('');
+        }
+
         document.getElementById('reportForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            reportsData.unshift({
+            reports.unshift({
                 name: document.getElementById('rName').value,
                 phone: document.getElementById('rPhone').value,
                 type: document.getElementById('rType').value,
                 message: document.getElementById('rMessage').value
             });
-            localStorage.setItem('sns_reports', JSON.stringify(reportsData));
+            localStorage.setItem('sns_v3_reports', JSON.stringify(reports));
             this.reset();
             renderReports();
-            alert('आपकी रिपोर्ट दर्ज हो गई है!');
+            alert('आपकी रिपोर्ट दर्ज कर ली गई है!');
         });
 
-        // प्रोफ़ाइल अपडेट करना
-        function applyProfile() {
-            document.getElementById('displayProfileName').innerText = `${profileData.name} (${profileData.city})`;
-            document.getElementById('displayProfileRole').innerText = `भूमिका: ${profileData.role}`;
-            document.getElementById('displayProfilePhone').innerText = `मोबाइल: ${profileData.phone}`;
-            document.getElementById('profileAvatar').innerText = profileData.name.charAt(0).toUpperCase();
+        // चलते हुए नंबर (Counters)
+        function runCounters() {
+            document.getElementById('countJobs').setAttribute('data-target', 343 + jobs.length);
+            document.getElementById('countWorkers').setAttribute('data-target', 518 + workers.length);
+
+            document.querySelectorAll('.counter').forEach(el => {
+                const target = +el.getAttribute('data-target');
+                let count = 0;
+                const inc = Math.ceil(target / 40);
+                const timer = setInterval(() => {
+                    count += inc;
+                    if (count >= target) {
+                        el.innerText = target + "+";
+                        clearInterval(timer);
+                    } else {
+                        el.innerText = count;
+                    }
+                }, 25);
+            });
         }
 
-        document.getElementById('profileUpdateForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            profileData = {
-                name: document.getElementById('pName').value,
-                phone: document.getElementById('pPhone').value,
-                role: document.getElementById('pRole').value,
-                city: document.getElementById('pCity').value
-            };
-            localStorage.setItem('sns_profile', JSON.stringify(profileData));
-            applyProfile();
-            this.reset();
-            alert('प्रोफ़ाइल जानकारी सेव हो गई है!');
-        });
-
-        // डेटा रीसेट बटन
-        function resetDemoData() {
-            if (confirm('क्या आप सारा डेटा शुरुआती स्थिति में लाना चाहते हैं?')) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        // पेज लोड होने पर सब कुछ शुरू करें
+        // शुरुआती लोड
         window.onload = function() {
             renderJobs();
             renderWorkers();
             renderReports();
-            renderBookings();
-            applyProfile();
-            animateCounters();
+            updateAuthUI();
+            runCounters();
         };
     </script>
 </body>
-  </html>
+</html>
